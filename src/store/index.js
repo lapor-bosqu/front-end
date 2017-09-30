@@ -2,6 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
+import axios from 'axios'
+
+let hostURL = 'http://localhost:3000'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -24,6 +28,7 @@ export const store = new Vuex.Store({
         description: 'It\'s Paris!'
       }
     ],
+    loadedReports: [],
     user: null,
     loading: false,
     error: null
@@ -31,6 +36,9 @@ export const store = new Vuex.Store({
   mutations: {
     setLoadedMeetups (state, payload) {
       state.loadedMeetups = payload
+    },
+    setLoadedReports (state, payload) {
+      state.loadedReports = payload
     },
     createMeetup (state, payload) {
       state.loadedMeetups.push(payload)
@@ -74,6 +82,21 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
           }
         )
+    },
+    loadReports ({commit}) {
+      commit('setLoading', true)
+      axios({
+        method: 'get',
+        url: hostURL + '/reports'
+      }).then(reports => {
+        commit('setLoadedReports', reports.data)
+        commit('setLoading', false)
+      }).catch(
+        (error) => {
+          console.log(error)
+          commit('setLoading', false)
+        }
+      )
     },
     createMeetup ({commit, getters}, payload) {
       const meetup = {
@@ -157,6 +180,9 @@ export const store = new Vuex.Store({
       return state.loadedMeetups.sort((meetupA, meetupB) => {
         return meetupA.date > meetupB.date
       })
+    },
+    loadedReports (state) {
+      return state.loadedReports
     },
     featuredMeetups (state, getters) {
       return getters.loadedMeetups.slice(0, 5)

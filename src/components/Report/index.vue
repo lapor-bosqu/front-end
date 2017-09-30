@@ -10,7 +10,7 @@
           <v-spacer></v-spacer>
           <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
         </v-card-title>
-        <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search">
+        <v-data-table v-bind:headers="headers" v-bind:items="reports" v-bind:search="search">
           <template slot="items" scope="props">
 
               <td>{{ props.item.title }}</td>
@@ -66,72 +66,15 @@ export default {
           value: 'reportDate'
         }
       ],
-      items: [{
-          title: 'Issue to do payment via bukadompet',
-          severity: 'Critical',
-          reporter: 'Chelsea Islan',
-          reportDate: '2017-09-29T20:42:17+07:00'
-        },
-        {
-          title: 'Notif for user status is not appear ',
-          severity: 'High',
-          reporter: 'Ariel Tatum',
-          reportDate: '2017-09-29T19:42:17+07:00'
-        },
-        {
-          title: 'Historical transaction cannot show time to send',
-          severity: 'Medium',
-          reporter: 'Cinta Laura',
-          reportDate: '2017-09-29T18:42:17+07:00'
-        },
-        {
-          title: 'Wording in top menu dashboard not inline',
-          severity: 'Low',
-          reporter: 'Luna Maya',
-          reportDate: '2017-09-29T12:42:17+07:00'
-        },
-        {
-          title: 'Status send is always pending',
-          severity: 'High',
-          reporter: 'Ariel Tatum',
-          reportDate: '2017-09-29T10:42:17+07:00'
-        },
-        {
-          title: 'Wrong background color(green) for beli pulsa',
-          severity: 'Low',
-          reporter: 'Luna Maya',
-          reportDate: '2017-09-29T11:42:17+07:00'
-        },
-        {
-          title: 'Adding annoucement notif in dashboard',
-          severity: 'Improvement',
-          reporter: 'Chelsea Islan',
-          reportDate: '2017-09-29T12:42:17+07:00'
-        },
-        {
-          title: 'Bukalapak icon in searching result not appear',
-          severity: 'Low',
-          reporter: 'Ariel Tatum',
-          reportDate: '2017-09-29T13:42:17+07:00'
-        },
-        {
-          title: 'Unable to login via Facebook',
-          severity: 'High',
-          reporter: 'Chelsea Islan',
-          reportDate: '2017-09-29T15:42:17+07:00'
-        },
-        {
-          title: 'Searching to slow takes 30 seconds or more',
-          severity: 'Medium',
-          reporter: 'Kirana Larasati',
-          reportDate: '2017-09-29T15:42:17+07:00'
-        }
-      ]
+      items: []
     }
   },
+  created() {
+    console.log('jalan')
+  },
   computed: {
-    meetups() {
-      return this.$store.getters.loadedMeetups
+    reports() {
+      return this.$store.getters.loadedReports
     }
   }
 }
