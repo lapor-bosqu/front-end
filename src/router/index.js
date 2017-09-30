@@ -9,6 +9,8 @@ import Signin from '@/components/User/Signin'
 import Meetup from '@/components/Meetup/Meetup'
 import AuthGuard from './auth-guard'
 
+import Reports from '@/components/Report/index'
+
 Vue.use(Router)
 
 export default new Router({
@@ -50,6 +52,11 @@ export default new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/reports',
+      name: 'Reports',
+      component: Reports
     }
   ],
   mode: 'history'

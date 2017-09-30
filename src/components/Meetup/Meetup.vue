@@ -21,16 +21,25 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <meetup-audience></meetup-audience>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
 <script>
-  export default {
-    props: ['id'],
-    computed: {
-      meetup () {
-        return this.$store.getters.loadedMeetup(this.id)
-      }
+import MeetupAudience from './MeetupAudience'
+export default {
+  props: ['id'],
+  computed: {
+    meetup () {
+      return this.$store.getters.loadedMeetup(this.id)
     }
+  },
+  components: {
+    'meetup-audience': MeetupAudience
   }
+}
 </script>

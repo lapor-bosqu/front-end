@@ -8,6 +8,7 @@ import DateFilter from './filters/date'
 import AlertCmp from './components/Shared/Alert.vue'
 
 Vue.use(Vuetify)
+Vue.use(require('vue-moment'))
 Vue.config.productionTip = false
 
 Vue.filter('date', DateFilter)
@@ -21,10 +22,10 @@ new Vue({
   render: h => h(App),
   created () {
     firebase.initializeApp({
-      apiKey: 'AIzaSyCFYWd6FpR53u4hSPXQSjOYeZNPF1FxG2M',
-      authDomain: 'yt-devmeetup.firebaseapp.com',
-      databaseURL: 'https://yt-devmeetup.firebaseio.com',
-      projectId: 'yt-devmeetup',
+      apiKey: 'AIzaSyCp4cB47L7summmwmXSMEPfWoujMEfaYKw',
+      authDomain: 'mozspacejkt-2edda.firebaseapp.com',
+      databaseURL: 'https://mozspacejkt-2edda.firebaseio.com',
+      projectId: ' mozspacejkt-2edda',
       storageBucket: ''
     })
     firebase.auth().onAuthStateChanged((user) => {
