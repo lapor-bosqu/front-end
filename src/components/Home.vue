@@ -12,8 +12,9 @@
     </v-layout>
     <v-layout row wrap  class="mt-2">
       <v-flex xs12 class="text-xs-center">
-        <h2 class="headline">Lapor BosQu</h2>
-       <p>Find more bugs === Earn more Highfive!</p>
+        <img src="/static/maskot-lapor-bosku.png" alt="" class="mb-5">
+
+       <p class="display-2">Find more bugs === Earn more Hi5!</p>
       </v-flex>
     </v-layout>
   </v-container>

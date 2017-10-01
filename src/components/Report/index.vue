@@ -10,7 +10,7 @@
           <v-spacer></v-spacer>
           <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
         </v-card-title>
-        <v-data-table v-bind:headers="headers" v-bind:items="reports" v-bind:search="search">
+        <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search" v-bind:pagination.sync="pagination">
           <template slot="items" scope="props">
 
               <td>{{ props.item.title }}</td>
@@ -21,8 +21,8 @@
                 <v-btn icon class="green--text" :to="{ name: 'DetailReport', params: { id:props.item.id }}">
                   <v-icon>visibility</v-icon>
                 </v-btn>
-                <v-btn icon class="blue--text">
-                  <v-icon>border_color</v-icon> Validasi
+                <v-btn primary>
+                  Validasi!
                 </v-btn>
                 <v-btn icon class="pink--text" @click.native.stop="confirmDelete(props.item)">
                   <v-icon>delete</v-icon>
@@ -46,7 +46,10 @@ export default {
       max25chars: (v) => v.length <= 25 || 'Input too long!',
       tmp: '',
       search: '',
-      pagination: {},
+      pagination: {
+          sortBy: 'reportDate',
+          descending: true
+        },
       headers: [{
           text: 'Title',
           align: 'left',
@@ -66,7 +69,82 @@ export default {
           value: 'reportDate'
         }
       ],
-      items: []
+      items: [{
+      	title: 'Issue to do payment via bukadompet',
+      	severity: 'Critical',
+      	reporter: 'Chelsea Islan',
+      	reportDate: '2017-10-01T00:17:42+07:00'
+       },
+
+       {	title: 'Notif for user status is not appear ',
+      	severity: 'High',
+      	reporter: 'Ariel Tatum',
+      	reportDate: '2017-10-01T01:17:42+07:00'
+
+       },
+       {	title: 'Icon kategori salah ',
+      	severity: 'Medium',
+      	reporter: 'Diky Arga',
+      	reportDate: '2017-10-01T13:28:44+07:00'
+
+       },
+
+       {	title: 'Historical transaction cannot show time to send',
+      	severity: 'Medium',
+      	reporter: 'Cinta Laura',
+      	reportDate: '2017-10-01T02:17:42+07:00'
+
+       },
+
+       {	title: 'Wording in top menu dashboard not inline',
+      	severity: 'Low',
+      	reporter: 'Luna Maya',
+      	reportDate: '2017-10-01T02:17:42+07:00'
+
+       },
+
+       {	title: 'Status send is always pending',
+      	severity: 'High',
+      	reporter: 'Ariel Tatum',
+      	reportDate: '2017-10-01T04:17:42+07:00'
+
+       },
+
+       {	title: 'Wrong background color(green) for beli pulsa',
+      	severity: 'Low',
+      	reporter: 'Luna Maya',
+      	reportDate: '2017-10-01T05:17:42+07:00'
+
+       },
+
+       {	title: 'Adding annoucement notif in dashboard',
+      	severity: 'Improvement',
+      	reporter: 'Chelsea Islan',
+      	reportDate: '2017-10-01T05:17:42+07:00'
+
+       },
+
+       {	title: 'Bukalapak icon in searching result not appear',
+      	severity: 'Low',
+      	reporter: 'Ariel Tatum',
+      	reportDate: '2017-09-30T13:42:17+07:00'
+
+       },
+
+       {	title: 'Unable to login via Facebook',
+      	severity: 'High',
+      	reporter: 'Chelsea Islan',
+      	reportDate: '2017-09-30T15:42:17+07:00'
+
+       },
+
+       {	title: 'Searching to slow takes 30 seconds or more',
+      	severity: 'Medium',
+      	reporter: 'Kirana Larasati',
+      	reportDate: '2017-09-30T15:42:17+07:00'
+
+       }]
+
     }
   },
   created() {

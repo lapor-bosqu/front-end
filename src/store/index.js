@@ -4,7 +4,7 @@ import * as firebase from 'firebase'
 
 import axios from 'axios'
 
-let hostURL = 'http://localhost:3000'
+let hostURL = 'http://128.199.102.9:3000'
 
 Vue.use(Vuex)
 
@@ -38,7 +38,8 @@ export const store = new Vuex.Store({
       state.loadedMeetups = payload
     },
     setLoadedReports (state, payload) {
-      state.loadedReports = payload
+      
+      state.loadedReports.push(payload)
     },
     createMeetup (state, payload) {
       state.loadedMeetups.push(payload)
