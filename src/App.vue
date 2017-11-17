@@ -69,7 +69,7 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'room', title: 'Laporan', link: '/reports'},
+            {icon: 'assignment', title: 'Laporan', link: '/reports'},
             {icon: 'person', title: 'Profil', link: '/profile'}
           ]
         }
