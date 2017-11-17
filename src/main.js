@@ -6,6 +6,10 @@ import router from './router'
 import { store } from './store'
 import DateFilter from './filters/date'
 import AlertCmp from './components/Shared/Alert.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+ 
+Vue.use(VueAxios, axios)
 
 Vue.use(Vuetify)
 Vue.use(require('vue-moment'))

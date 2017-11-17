@@ -1,7 +1,7 @@
 <template>
 <v-container>
   <v-layout row wrap>
-    <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
+    <v-flex xs12 sm10 md10 offset-sm1 offset-md1>
       <v-card>
         <h2 class="headline text-xs-center pt-4">Daftar Laporan</h2>
         <v-card-title>
@@ -14,16 +14,22 @@
           <template slot="items" scope="props">
 
               <td>{{ props.item.title }}</td>
-              <td>{{ props.item.severity }}</td>
+              <td>{{ props.item.platform }}</td>              
+              <td>{{ props.item.saverity }}</td>
               <td>{{ props.item.reporter }}</td>
-              <td>{{ props.item.reportDate | | moment("from", "now") }}</td>
+              <td>{{ props.item.status }}</td>
+              <td>{{ props.item.createdAt | | moment("from", "now") }}</td>
               <td style="display: inline-flex">
                 <v-btn icon class="green--text" :to="{ name: 'DetailReport', params: { id:props.item.id }}">
                   <v-icon>visibility</v-icon>
                 </v-btn>
-                <v-btn primary>
-                  Validasi!
+                <v-btn primary v-if="isConvertedToJira(props.item)" @click="convertToJira(props.item.id)">
+                  Conver to Jira
                 </v-btn>
+                <v-btn outline v-else @click="goToJiraIssue(props.item.jiraIssue.key)">
+                  go to Jira Issue
+                </v-btn>
+
                 <v-btn icon class="pink--text" @click.native.stop="confirmDelete(props.item)">
                   <v-icon>delete</v-icon>
                 </v-btn>
@@ -40,6 +46,9 @@
 </template>
 
 <script>
+const apiHost = 'http://udin.us:3000'
+const jiraURLBase = 'https://lapor-bosqu.atlassian.net'
+
 export default {
   data () {
     return {
@@ -57,103 +66,75 @@ export default {
           value: 'title'
         },
         {
+          text: 'Platform',
+          value: 'platform'
+        },
+        {
           text: 'Saverity',
-          value: 'severity'
+          value: 'saverity'
         },
         {
           text: 'Reporter',
           value: 'reporter'
         },
         {
+          text: 'Status',
+          value: 'status'
+        },
+        {
           text: 'When',
-          value: 'reportDate'
+          value: 'createdAt'
+        },
+        {
+          text: 'Action',
+          value: ''
         }
       ],
-      items: [{
-      	title: 'Issue to do payment via bukadompet',
-      	severity: 'Critical',
-      	reporter: 'Chelsea Islan',
-      	reportDate: '2017-10-01T00:17:42+07:00'
-       },
-
-       {	title: 'Notif for user status is not appear ',
-      	severity: 'High',
-      	reporter: 'Ariel Tatum',
-      	reportDate: '2017-10-01T01:17:42+07:00'
-
-       },
-       {	title: 'Icon kategori salah ',
-      	severity: 'Medium',
-      	reporter: 'Diky Arga',
-      	reportDate: '2017-10-01T13:28:44+07:00'
-
-       },
-
-       {	title: 'Historical transaction cannot show time to send',
-      	severity: 'Medium',
-      	reporter: 'Cinta Laura',
-      	reportDate: '2017-10-01T02:17:42+07:00'
-
-       },
-
-       {	title: 'Wording in top menu dashboard not inline',
-      	severity: 'Low',
-      	reporter: 'Luna Maya',
-      	reportDate: '2017-10-01T02:17:42+07:00'
-
-       },
-
-       {	title: 'Status send is always pending',
-      	severity: 'High',
-      	reporter: 'Ariel Tatum',
-      	reportDate: '2017-10-01T04:17:42+07:00'
-
-       },
-
-       {	title: 'Wrong background color(green) for beli pulsa',
-      	severity: 'Low',
-      	reporter: 'Luna Maya',
-      	reportDate: '2017-10-01T05:17:42+07:00'
-
-       },
-
-       {	title: 'Adding annoucement notif in dashboard',
-      	severity: 'Improvement',
-      	reporter: 'Chelsea Islan',
-      	reportDate: '2017-10-01T05:17:42+07:00'
-
-       },
-
-       {	title: 'Bukalapak icon in searching result not appear',
-      	severity: 'Low',
-      	reporter: 'Ariel Tatum',
-      	reportDate: '2017-09-30T13:42:17+07:00'
-
-       },
-
-       {	title: 'Unable to login via Facebook',
-      	severity: 'High',
-      	reporter: 'Chelsea Islan',
-      	reportDate: '2017-09-30T15:42:17+07:00'
-
-       },
-
-       {	title: 'Searching to slow takes 30 seconds or more',
-      	severity: 'Medium',
-      	reporter: 'Kirana Larasati',
-      	reportDate: '2017-09-30T15:42:17+07:00'
-
-       }]
-
+      items: []
     }
   },
   created() {
     console.log('jalan')
+    this.fetchReports()
+  },
+  methods: {
+    fetchReports() {
+      this.axios({
+        url: apiHost + '/reports',
+        method: 'get',
+      }).then(reports => {
+        this.items = reports.data
+      }).catch(err => {
+        console.log('err when fetch reports : ', err)
+      })
+    },
+    isConvertedToJira(value) {
+      return value.jiraIssue == undefined ? true : false;
+    },
+    goToJiraIssue(issueKey) {
+      console.log('goto jira issue')
+      window.open(jiraURLBase + '/browse/' + issueKey, '_blank');
+    },
+    convertToJira(id) {
+      console.log('fired up')
+      this.axios({
+        url: apiHost + '/report/' + id + '/convert-to-jira',
+        method: 'get'
+      }).then(response => {
+        if(response.data.success){
+          this.fetchReports()
+        } else {
+          console.log('error when trying to convert into Jira issue : ', response.data.message)
+        }
+      }).catch(err => {
+        console.log('error when conver to jira : ', err)
+      })
+    }
   },
   computed: {
     reports() {
       return this.$store.getters.loadedReports
-    }
+    },
   }
 }
 </script>
