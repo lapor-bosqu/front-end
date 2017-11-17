@@ -46,7 +46,7 @@
 </template>
 
 <script>
-const apiHost = 'http://udin.us:3000'
+const apiHost = 'https://udin.us/lapor'
 const jiraURLBase = 'https://lapor-bosqu.atlassian.net'
 
 export default {

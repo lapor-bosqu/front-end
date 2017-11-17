@@ -4,7 +4,7 @@ import * as firebase from 'firebase'
 
 import axios from 'axios'
 
-let hostURL = 'http://128.199.102.9:3000'
+let hostURL = 'https://udin.us/lapor'
 
 Vue.use(Vuex)
 
