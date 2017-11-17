@@ -10,6 +10,7 @@ import Meetup from '@/components/Meetup/Meetup'
 import AuthGuard from './auth-guard'
 
 import Reports from '@/components/Report/index'
+import DetailReport from '@/components/Report/DetailReport'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({
       path: '/reports',
       name: 'Reports',
       component: Reports
+    },
+    {
+      path: '/report/:id',
+      name: 'DetailReport',
+      component: DetailReport
     }
   ],
   mode: 'history'

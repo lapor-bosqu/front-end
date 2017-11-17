@@ -31,7 +31,8 @@ export const store = new Vuex.Store({
     loadedReports: [],
     user: null,
     loading: false,
-    error: null
+    error: null,
+    apiUrl: 'https://udin.us/lapor'
   },
   mutations: {
     setLoadedMeetups (state, payload) {
@@ -203,6 +204,9 @@ export const store = new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    apiUrl(state) {
+      return state.apiUrl
     }
   }
 })

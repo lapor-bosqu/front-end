@@ -46,7 +46,6 @@
 </template>
 
 <script>
-const apiHost = 'https://udin.us/lapor'
 const jiraURLBase = 'https://lapor-bosqu.atlassian.net'
 
 export default {
@@ -100,7 +99,7 @@ export default {
   methods: {
     fetchReports() {
       this.axios({
-        url: apiHost + '/reports',
+        url: this.$store.getters.apiUrl + '/reports',
         method: 'get',
       }).then(reports => {
         this.items = reports.data
@@ -118,7 +117,7 @@ export default {
     convertToJira(id) {
       console.log('fired up')
       this.axios({
-        url: apiHost + '/report/' + id + '/convert-to-jira',
+        url: this.$store.getters.apiUrl + '/report/' + id + '/convert-to-jira',
         method: 'get'
       }).then(response => {
         if(response.data.success){
