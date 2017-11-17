@@ -7,8 +7,11 @@
         <h4 class="title text-xs-center pt-4" v-if="report">{{ report.title}}</h4>
         <v-card-title>
             <v-spacer></v-spacer>
-        <v-btn primary v-if="isConvertedToJira(report)" @click="convertToJira(report.id)">
-            Conver to Jira
+        <v-btn primary v-if="isConvertedToJira(report)" @click="convertToJira(report.id)" :loading="loading">
+            Convert to Jira
+            <span slot="loader" class="custom-loader">
+                <v-icon light>cached</v-icon>
+            </span>
         </v-btn>
         <v-btn outline v-else @click="goToJiraIssue(report.jiraIssue.key)">
             go to Jira Issue
@@ -110,6 +113,31 @@ const jiraURLBase = 'https://lapor-bosqu.atlassian.net'
             console.log('goto jira issue')
             window.open(jiraURLBase + '/browse/' + issueKey, '_blank');
         },
+        convertToJira(id) {
+            console.log('fired up')
+            this.$store.commit('setLoading', true)
+            this.axios({
+                url: this.$store.getters.apiUrl + '/report/' + id + '/convert-to-jira',
+                method: 'get'
+            }).then(response => {
+                if(response.data.success){
+                this.fetchReports()
+                } else {
+                console.log('error when trying to convert into Jira issue : ', response.data.message)
+                }
+                this.$store.commit('setLoading', false)
+                
+            }).catch(err => {
+                console.log('error when conver to jira : ', err)
+                this.$store.commit('setLoading', false)
+                
+            })
+            }
+    },
+    computed: {
+        loading () {
+            return this.$store.getters.loading
+        }
     }
   }
 </script>

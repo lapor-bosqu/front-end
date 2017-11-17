@@ -23,8 +23,11 @@
                 <v-btn icon class="green--text" :to="{ name: 'DetailReport', params: { id:props.item.id }}">
                   <v-icon>visibility</v-icon>
                 </v-btn>
-                <v-btn primary v-if="isConvertedToJira(props.item)" @click="convertToJira(props.item.id)">
-                  Conver to Jira
+                <v-btn primary v-if="isConvertedToJira(props.item)" @click="convertToJira(props.item.id)" :loading="loading">
+                  Convert to Jira
+                  <span slot="loader" class="custom-loader">
+                    <v-icon light>cached</v-icon>
+                  </span>
                 </v-btn>
                 <v-btn outline v-else @click="goToJiraIssue(props.item.jiraIssue.key)">
                   go to Jira Issue
@@ -116,6 +119,7 @@ export default {
     },
     convertToJira(id) {
       console.log('fired up')
+      this.$store.commit('setLoading', true)
       this.axios({
         url: this.$store.getters.apiUrl + '/report/' + id + '/convert-to-jira',
         method: 'get'
@@ -125,8 +129,12 @@ export default {
         } else {
           console.log('error when trying to convert into Jira issue : ', response.data.message)
         }
+        this.$store.commit('setLoading', false)
+        
       }).catch(err => {
         console.log('error when conver to jira : ', err)
+        this.$store.commit('setLoading', false)
+        
       })
     }
   },
@@ -134,6 +142,9 @@ export default {
     reports() {
       return this.$store.getters.loadedReports
     },
+    loading () {
+      return this.$store.getters.loading
+    }
   }
 }
 </script>
