@@ -7,7 +7,7 @@
         <h4 class="title text-xs-center pt-4" v-if="report">{{ report.title}}</h4>
         <v-card-title>
             <v-spacer></v-spacer>
-        <v-btn primary v-if="isConvertedToJira(report)" @click="convertToJira(props.item.id)">
+        <v-btn primary v-if="isConvertedToJira(report)" @click="convertToJira(report.id)">
             Conver to Jira
         </v-btn>
         <v-btn outline v-else @click="goToJiraIssue(report.jiraIssue.key)">
